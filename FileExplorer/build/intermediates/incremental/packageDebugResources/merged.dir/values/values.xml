@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ColorPrimary">#35475D</color>
+    <color name="ColorPrimaryDark">#35475D</color>
+    <color name="background_tab_pressed">#1F497D</color>
+    <color name="color_background">#1F497D</color>
+    <color name="color_editboxcolor">#adda55</color>
+    <color name="color_topbar">#8aae44</color>
+    <color name="gplusbtncolor">#e23737</color>
+    <color name="gray_transparant">#753f3f3f</color>
+    <color name="job_Date">#35475D</color>
+    <color name="job_contain">#6F6D6E</color>
+    <color name="job_name">#858585</color>
+    <color name="job_subject">#35475D</color>
+    <color name="joblist_bg_color">#d0dae6</color>
+    <color name="primary">#35475D</color>
+    <color name="primary_dark">#35475D</color>
+    <color name="pull_blue_bright">#ff00ddff</color>
+    <color name="pull_green_light">#ff99cc00</color>
+    <color name="pull_orange_light">#ffffbb33</color>
+    <color name="pull_red_light">#ffff4444</color>
+    <color name="tabselectcolor">#E84C3D</color>
+    <color name="theme_color">#35475D</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="FreeOfTotal">Free %1$s of %2$s</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">GetDirectory</string>
+    <string name="hello_world">Hello world!</string>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- <item name="android:windowTranslucentStatus">true</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
