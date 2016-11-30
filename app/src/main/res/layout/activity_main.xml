@@ -32,6 +32,10 @@
                     android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <com.example.administrator.mediaplayer.widget.CDView
+                        android:layout_centerInParent="true"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp" />
                     <ImageView
                         android:id="@+id/prev"
                         android:src="@mipmap/prev"

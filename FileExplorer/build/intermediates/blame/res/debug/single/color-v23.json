@@ -4,12 +4,36 @@
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_switch_thumb.xml"
     },
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_btn_checkable.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_edittext.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_edittext.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_switch_track.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_switch_track.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_btn_colored_borderless_text_material.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_btn_colored_borderless_text_material.xml"
     },
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_seek_thumb.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_seek_thumb.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_switch_track.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_spinner.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_spinner.xml"
     },
     {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_btn_checkable.xml",
@@ -24,6 +48,10 @@
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_edittext.xml"
     },
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_default.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_default.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_spinner.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_spinner.xml"
     },
@@ -32,7 +60,15 @@
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_seek_thumb.xml"
     },
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_switch_thumb.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_switch_thumb.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_default.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_default.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_btn_colored_borderless_text_material.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_btn_colored_borderless_text_material.xml"
     }
 ]

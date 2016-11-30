@@ -1,5 +1,9 @@
 [
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
     }

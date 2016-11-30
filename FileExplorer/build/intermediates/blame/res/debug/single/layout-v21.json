@@ -4,15 +4,31 @@
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_action_tombstone.xml"
     },
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_action.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_template_custom_big.xml"
     },
     {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_template_custom_big.xml"
     },
     {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_action_tombstone.xml"
+    },
+    {
         "merged": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
         "source": "E:\\Androidworkspace\\AndroidFileExplorer\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "E:\\AndroidProject\\MediaPlayer\\FileExplorer\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout-v21\\notification_action.xml"
     }
 ]
