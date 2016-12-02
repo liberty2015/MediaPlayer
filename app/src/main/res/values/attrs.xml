@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="circleStrokeWidth" format="dimension|reference"/>
+        <attr name="insidePadding" format="dimension|reference"/>
+        <attr name="progressColor" format="color|reference"/>
+        <attr name="currentProgress" format="integer|reference"/>
+    </declare-styleable>
+    <declare-styleable name="CDView">
+        <attr name="circleImg" format="reference"/>
+    </declare-styleable>
+</resources>

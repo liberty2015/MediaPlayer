@@ -14,4 +14,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void testFloat(){
+        float num=40/100F;
+        float degree=num*360;
+        System.out.println(num+"  "+degree);
+    }
 }
