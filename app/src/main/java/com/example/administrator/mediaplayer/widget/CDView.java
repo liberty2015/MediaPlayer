@@ -9,7 +9,6 @@ import android.graphics.BitmapShader;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -135,12 +134,14 @@ public class CDView extends View {
             bitmapShader=new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
             bitmapPaint.setShader(bitmapShader);
         }else {
-            LinearGradient linearGradient=
-                    new LinearGradient(0,0,mWidth,mWidth,
-                            new int[]{Color.WHITE,Color.BLACK,Color.WHITE},
-                            new float[]{0,0.6f,1.0f},
-                            Shader.TileMode.REPEAT);
-            bitmapPaint.setShader(linearGradient);
+//            LinearGradient linearGradient=
+//                    new LinearGradient(0,0,mWidth,mWidth,
+//                            new int[]{Color.WHITE,Color.BLACK,Color.WHITE},
+//                            new float[]{0,0.6f,1.0f},
+//                            Shader.TileMode.REPEAT);
+            Bitmap bitmap= drawableToBitmap(getResources().getDrawable(R.mipmap.disk));
+            bitmapShader=new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            bitmapPaint.setShader(bitmapShader);
         }
 
     }
