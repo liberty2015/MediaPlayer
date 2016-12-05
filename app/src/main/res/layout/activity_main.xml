@@ -8,14 +8,15 @@
     android:fitsSystemWindows="true"
     >
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbarLayout"
             android:fitsSystemWindows="true"
-            app:titleEnabled="true"
-            app:title=""
+            app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
@@ -25,7 +26,7 @@
             <FrameLayout
                 android:id="@+id/media_container"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="none"
+                app:layout_collapseMode="pin"
                 app:layout_collapseParallaxMultiplier="0.7"
                 android:layout_width="match_parent"
                 android:layout_height="350dp">
@@ -45,12 +46,21 @@
                         app:currentProgress="0"
                         android:layout_width="250dp"
                         android:layout_height="250dp" />
+
                     <com.example.administrator.mediaplayer.widget.CDView
                         android:id="@+id/cdView"
                         app:circleImg="@mipmap/pic"
                         android:layout_centerInParent="true"
                         android:layout_width="250dp"
                         android:layout_height="250dp" />
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/play"
+                        app:fabSize="normal"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/play"
+                        app:backgroundTint="@color/progressColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                     <ImageView
                         android:id="@+id/prev"
                         android:src="@mipmap/prev"
@@ -72,23 +82,27 @@
                 android:id="@+id/toolbar"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
+
         <RelativeLayout
+            app:layout_scrollFlags="scroll"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="70dp">
             <ImageView
-                android:id="@+id/music_icon"
+                android:id="@+id/music_folder"
                 android:src="@mipmap/folder_music"
                 android:layout_marginLeft="10dp"
                 android:scaleType="center"
                 android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content" />
             <LinearLayout
-                android:layout_toRightOf="@id/music_icon"
+                android:layout_toRightOf="@id/music_folder"
                 android:orientation="vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"

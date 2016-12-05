@@ -5,12 +5,14 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.support.v7.graphics.Palette;
@@ -46,6 +48,7 @@ public class CDView extends View {
     private Animation animation;
     private ObjectAnimator rotateAnimator;
     private int drawableRes;
+    private Bitmap mBitmap;
     private boolean hasInit=true;
 //    private RotateThread thread;
 
@@ -125,8 +128,8 @@ public class CDView extends View {
      * 将裁剪好的bitmap作为bitmap着色器设置到paint上
      */
     private void setUpShader(){
-        if (drawableRes!=0){
-            Bitmap bitmap= drawableToBitmap(getResources().getDrawable(drawableRes));
+        if (mBitmap!=null){
+            Bitmap bitmap= drawableToBitmap(mBitmap);
             if (paletteAsyncListener!=null){
                 Palette.Builder builder=Palette.from(bitmap);
                 builder.generate(paletteAsyncListener);
@@ -172,6 +175,23 @@ public class CDView extends View {
         return bitmap;
     }
 
+
+    private Bitmap drawableToBitmap(Bitmap mBitmap){
+        int w=mBitmap.getWidth();
+        int h=mBitmap.getHeight();
+        Bitmap bitmap= Bitmap.createBitmap(w,h, Bitmap.Config.ARGB_8888);
+        Canvas canvas=new Canvas(bitmap);
+//        Matrix matrix=new Matrix();
+//        int scale=mWidth/w;
+//        matrix.setScale(scale,scale);
+//        canvas.drawBitmap(mBitmap,matrix,null);
+        BitmapDrawable drawable=new BitmapDrawable(mBitmap);
+        drawable.setBounds(0,0,mWidth,mWidth);
+        drawable.draw(canvas);
+//        Math.toDegrees()
+        return bitmap;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -200,17 +220,21 @@ public class CDView extends View {
 
     public void setDrawableRes(int drawableRes) {
         this.drawableRes = drawableRes;
+        this.mBitmap= BitmapFactory.decodeResource(getResources(),drawableRes);
         hasInit=true;
         invalidate();
     }
 
-
+    public void setmBitmap(Bitmap mBitmap) {
+        this.mBitmap = mBitmap;
+    }
 
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable parcelable=super.onSaveInstanceState();
         return super.onSaveInstanceState();
     }
+
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {

@@ -74,7 +74,7 @@ public class CircleProgressBar extends View {
     }
 
     public void setCurrentProgress(int currentProgress) {
-        if (currentProgress>100){
+        if (currentProgress>TOTAL_PROGRESS){
             throw new IllegalArgumentException("进度不能大于100");
         }else {
             this.currentProgress = currentProgress;

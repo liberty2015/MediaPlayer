@@ -27,7 +27,7 @@ public class MusicService extends Service
 
     }
 
-    class MusicBinder extends Binder {
+    public class MusicBinder extends Binder {
 
         public void play(String url){
             try {
