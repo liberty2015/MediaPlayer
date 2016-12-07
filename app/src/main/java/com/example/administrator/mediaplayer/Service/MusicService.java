@@ -21,6 +21,7 @@ public class MusicService extends Service
 
     private MediaPlayer mediaPlayer;
     private int currentProgress=0;
+    private int totalProgress=0;
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
@@ -54,8 +55,13 @@ public class MusicService extends Service
             }
         }
 
+
         public int getCurrentPosition(){
             return mediaPlayer.getCurrentPosition();
+        }
+
+        public int getTotalProgress(){
+            return mediaPlayer.getDuration();
         }
     }
 
@@ -94,6 +100,7 @@ public class MusicService extends Service
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer=null;
     }

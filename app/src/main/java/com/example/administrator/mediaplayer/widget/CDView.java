@@ -54,6 +54,8 @@ public class CDView extends View {
 
     private int mWidth,mRadius,largeStroke,smallStroke,insideRadius,center,progressStrokeWidth;
 
+    private boolean isPause;
+
     public CDView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray array=context.obtainStyledAttributes(R.styleable.CDView);
@@ -151,6 +153,10 @@ public class CDView extends View {
 
     public void startRotate(){
         this.startAnimation(animation);
+    }
+
+    public void pauseRotate(){
+        ObjectAnimator animator;
     }
 
     private Palette.PaletteAsyncListener paletteAsyncListener;

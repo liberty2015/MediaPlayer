@@ -11,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,9 +49,12 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.author)
     TextView author;
 
+    private String fileUrl;
+
     private boolean firstOut=false;
     private Handler handler=new Handler();
     private MusicService.MusicBinder binder;
+    private boolean isPlay;
 
     private ServiceConnection connection=new ServiceConnection() {
         @Override
@@ -80,7 +84,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset<=-activity_main.getHeight()/2){
-                    toolbarLayout.setTitle(getString(R.string.app_name));
+                    toolbarLayout.setTitle(songName.getText());
                 }else {
                     toolbarLayout.setTitle("");
                 }
@@ -111,7 +115,7 @@ public class MainActivity extends BaseActivity {
 //            }
 //        });
 //        cdView.setDrawableRes(R.mipmap.pic);
-        cdView.startRotate();
+//        cdView.startRotate();
         bindService(new Intent(this,MusicService.class),connection,BIND_AUTO_CREATE);
     }
 
@@ -150,7 +154,15 @@ public class MainActivity extends BaseActivity {
     public void btnClick(View v){
         switch (v.getId()){
             case R.id.play:{
-
+                binder.pause();
+                if (isPlay){
+                    play.setImageResource(R.mipmap.pause);
+                    isPlay=false;
+                }else {
+                    play.setImageResource(R.mipmap.play);
+//                    cdView.startRotate();
+                    isPlay=true;
+                }
             }
             break;
             case R.id.music_folder:{
@@ -170,13 +182,19 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 101:{
-                String fileUrl=data.getStringExtra("file");
-                binder.play(fileUrl);
-                play.setImageResource(R.mipmap.pause);
-                author.setText(fileUrl);
-                songName.setText(fileUrl.substring(fileUrl.lastIndexOf("/")+1));
+                if (data!=null){
+                    fileUrl=data.getStringExtra("file");
+                    if (!TextUtils.isEmpty(fileUrl)){
+                        binder.play(fileUrl);
+                        play.setImageResource(R.mipmap.pause);
+                        cdView.startRotate();
+                        author.setText(fileUrl);
+                        songName.setText(fileUrl.substring(fileUrl.lastIndexOf("/")+1));
+                    }
+                }
             }
             break;
         }
     }
+
 }
