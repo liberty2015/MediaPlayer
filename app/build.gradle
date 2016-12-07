@@ -7,10 +7,11 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.example.administrator.mediaplayer"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+//        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,5 +33,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile project(':FileExplorer')
     testCompile 'junit:junit:4.12'
 }

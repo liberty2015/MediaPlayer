@@ -47,7 +47,8 @@ public class DirectoryFragment extends Fragment {
     private HashMap<String, ListItem> selectedFiles = new HashMap<String, ListItem>();
     private long sizeLimit = 1024 * 1024 * 1024;
 
-    private String[] chhosefileType = {".pdf", ".doc", ".docx", ".DOC", ".DOCX"};
+//    private String[] chhosefileType = {".pdf", ".doc", ".docx", ".DOC", ".DOCX"};
+    private String[] chooseMusicType={".mp3",".MP3"};
 
     private class HistoryEntry {
         int scrollItem, scrollOffset;
@@ -218,11 +219,7 @@ public class DirectoryFragment extends Fragment {
                         if (file.length() == 0) {
                             return;
                         }
-                        if (file.toString().contains(chhosefileType[0]) ||
-                                file.toString().contains(chhosefileType[1]) ||
-                                file.toString().contains(chhosefileType[2]) ||
-                                file.toString().contains(chhosefileType[3]) ||
-                                file.toString().contains(chhosefileType[4])) {
+                        if (hasChooseType(chooseMusicType,file)) {
                             if (delegate != null) {
                                 ArrayList<String> files = new ArrayList<String>();
                                 files.add(file.getAbsolutePath());
@@ -247,6 +244,15 @@ public class DirectoryFragment extends Fragment {
         return fragmentView;
     }
 
+    private boolean hasChooseType(String[] chooseTye,File file){
+        for(String type:chooseTye){
+            if (file.toString().contains(type)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void listRoots() {
         currentDir = null;
         items.clear();
@@ -260,8 +266,8 @@ public class DirectoryFragment extends Fragment {
             ext.title = "InternalStorage";
         }
         ext.icon = Build.VERSION.SDK_INT < 9
-                || Environment.isExternalStorageRemovable() ? R.drawable.ic_external_storage
-                : R.drawable.ic_storage;
+                || Environment.isExternalStorageRemovable() ? R.drawable.sdcard
+                : R.drawable.storage;
         ext.subtitle = getRootSubtitle(extStorage);
         ext.file = Environment.getExternalStorageDirectory();
         items.add(ext);
@@ -300,7 +306,7 @@ public class DirectoryFragment extends Fragment {
                         } else {
                             ext.title = "ExternalStorage";
                         }
-                        item.icon = R.drawable.ic_external_storage;
+                        item.icon = R.drawable.sdcard;
                         item.subtitle = getRootSubtitle(path);
                         item.file = new File(path);
                         items.add(item);
@@ -315,7 +321,7 @@ public class DirectoryFragment extends Fragment {
         ListItem fs = new ListItem();
         fs.title = "/";
         fs.subtitle = "SystemRoot";
-        fs.icon = R.drawable.ic_directory;
+        fs.icon = R.drawable.folder;
         fs.file = new File("/");
         items.add(fs);
 
@@ -402,7 +408,7 @@ public class DirectoryFragment extends Fragment {
             item.title = file.getName();
             item.file = file;
             if (file.isDirectory()) {
-                item.icon = R.drawable.ic_directory;
+                item.icon = R.drawable.folder;
                 item.subtitle = "Folder";
             } else {
                 String fname = file.getName();
@@ -420,7 +426,7 @@ public class DirectoryFragment extends Fragment {
         ListItem item = new ListItem();
         item.title = "..";
         item.subtitle = "Folder";
-        item.icon = R.drawable.ic_directory;
+        item.icon = R.drawable.folder;
         item.file = null;
         items.add(0, item);
         clearDrawableAnimation(listView);

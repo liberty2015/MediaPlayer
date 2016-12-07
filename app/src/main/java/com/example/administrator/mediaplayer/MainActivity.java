@@ -8,16 +8,19 @@ import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.administrator.mediaplayer.Base.BaseActivity;
 import com.example.administrator.mediaplayer.Service.MusicService;
 import com.example.administrator.mediaplayer.widget.CDView;
+import com.getdirectory.FileDirActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +41,12 @@ public class MainActivity extends BaseActivity {
     CollapsingToolbarLayout toolbarLayout;
     @BindView(R.id.activity_main)
     CoordinatorLayout activity_main;
+    @BindView(R.id.play)
+    FloatingActionButton play;
+    @BindView(R.id.songName)
+    TextView songName;
+    @BindView(R.id.author)
+    TextView author;
 
     private boolean firstOut=false;
     private Handler handler=new Handler();
@@ -101,9 +110,8 @@ public class MainActivity extends BaseActivity {
 //                return false;
 //            }
 //        });
-        cdView.setDrawableRes(R.mipmap.pic);
+//        cdView.setDrawableRes(R.mipmap.pic);
         cdView.startRotate();
-
         bindService(new Intent(this,MusicService.class),connection,BIND_AUTO_CREATE);
     }
 
@@ -146,7 +154,7 @@ public class MainActivity extends BaseActivity {
             }
             break;
             case R.id.music_folder:{
-
+                startActivityForResult(new Intent(MainActivity.this,FileDirActivity.class),101);
             }
             break;
         }
@@ -157,6 +165,18 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 101:{
+                String fileUrl=data.getStringExtra("file");
+                binder.play(fileUrl);
+                play.setImageResource(R.mipmap.pause);
+                author.setText(fileUrl);
+                songName.setText(fileUrl.substring(fileUrl.lastIndexOf("/")+1));
+            }
+            break;
+        }
+    }
 }
