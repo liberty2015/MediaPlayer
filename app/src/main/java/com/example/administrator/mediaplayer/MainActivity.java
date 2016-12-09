@@ -1,17 +1,19 @@
 package com.example.administrator.mediaplayer;
 
-import android.content.ComponentName;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.IntentFilter;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +21,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.mediaplayer.Base.BaseActivity;
-import com.example.administrator.mediaplayer.Service.MusicService;
+import com.example.administrator.mediaplayer.Service.MusicIntentService;
+import com.example.administrator.mediaplayer.adapter.DividerItemDecoration;
+import com.example.administrator.mediaplayer.adapter.MusicAdapter;
+import com.example.administrator.mediaplayer.adapter.OnRecyclerItemClickListener;
+import com.example.administrator.mediaplayer.bean.Music;
 import com.example.administrator.mediaplayer.widget.CDView;
+import com.example.administrator.mediaplayer.widget.CircleProgressBar;
 import com.getdirectory.FileDirActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.example.administrator.mediaplayer.commonEnum.PAUSE_STATE;
+import static com.example.administrator.mediaplayer.commonEnum.PLAY_STATE;
+import static com.example.administrator.mediaplayer.commonEnum.STOP_STATE;
 
 public class MainActivity extends BaseActivity {
 
@@ -32,6 +43,8 @@ public class MainActivity extends BaseActivity {
     RecyclerView musicList;
     @BindView(R.id.cdView)
     CDView cdView;
+    @BindView(R.id.circleProgress)
+    CircleProgressBar circleProgress;
     @BindView(R.id.playContainer)
     View playContainer;
     @BindView(R.id.music_folder)
@@ -48,25 +61,49 @@ public class MainActivity extends BaseActivity {
     TextView songName;
     @BindView(R.id.author)
     TextView author;
+    @BindView(R.id.totalTime)
+    TextView totalTime;
+    @BindView(R.id.currentTime)
+    TextView currentTime;
 
     private String fileUrl;
+    private String name="";
 
     private boolean firstOut=false;
     private Handler handler=new Handler();
-    private MusicService.MusicBinder binder;
-    private boolean isPlay;
 
-    private ServiceConnection connection=new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            binder= (MusicService.MusicBinder) service;
-        }
+    private MusicAdapter musicAdapter;
+//    private MusicService.MusicBinder binder;
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
+//    public static final int PLAY_STATE=100;
+//    public static final int PAUSE_STATE=101;
+//    public static final int STOP_STATE=102;
+//
+//    @IntDef({PLAY_STATE,PAUSE_STATE,STOP_STATE})
+//    @Retention(RetentionPolicy.SOURCE)
+//    public @interface MUSICSTATE{}
 
-        }
-    };
+    private @commonEnum.MUSICSTATE int state=STOP_STATE;
+
+    private float totalProgress,currentProgress;
+
+    public static final String COMPLETE_ACTION="com.liberty.mediaplayer.completeAction";
+
+    public static final String TOTALPROGRESS_ACTION="com.liberty.mediaplayer.totalProgressAction";
+
+    public static final String CURRENTPROGRESS_ACTION="com.liberty.mediaplayer.currentProgressAction";
+
+//    private ServiceConnection connection=new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            binder= (MusicService.MusicBinder) service;
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//
+//        }
+//    };
 
     @Override
     protected int setLayoutId() {
@@ -75,11 +112,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        startService(new Intent(this, MusicIntentService.class));
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(COMPLETE_ACTION);
+        filter.addAction(TOTALPROGRESS_ACTION);
+        filter.addAction(CURRENTPROGRESS_ACTION);
+        BroadcastReceiver receiver=new ActivityReceiver();
+        registerReceiver(receiver,filter);
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        toolbar.inflateMenu(R.menu.toolbar_menu);
-//        toolbar.setTitle(R.string.app_name);
+        toolbar.inflateMenu(R.menu.toolbar_menu);
+        toolbar.setTitle(R.string.app_name);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -90,6 +134,20 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+        musicAdapter=new MusicAdapter(this);
+        musicList.setAdapter(musicAdapter);
+        musicList.setLayoutManager(new LinearLayoutManager(this));
+        musicList.addOnItemTouchListener(new OnRecyclerItemClickListener(musicList) {
+            @Override
+            public void onItemClick(int position, RecyclerView.ViewHolder holder) {
+                super.onItemClick(position, holder);
+                Music music=musicAdapter.getItem(position);
+                if (!fileUrl.equals(music.getUrl())){
+                    play(music.getUrl());
+                }
+            }
+        });
+        musicList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 //        cdView.setPaletteAsyncListener(new Palette.PaletteAsyncListener() {
 //            @Override
 //            public void onGenerated(Palette palette) {
@@ -114,9 +172,9 @@ public class MainActivity extends BaseActivity {
 //                return false;
 //            }
 //        });
-//        cdView.setDrawableRes(R.mipmap.pic);
+        cdView.setDrawableRes(R.mipmap.april);
 //        cdView.startRotate();
-        bindService(new Intent(this,MusicService.class),connection,BIND_AUTO_CREATE);
+//        bindService(new Intent(this,MusicService.class),connection,BIND_AUTO_CREATE);
     }
 
     @Override
@@ -154,14 +212,23 @@ public class MainActivity extends BaseActivity {
     public void btnClick(View v){
         switch (v.getId()){
             case R.id.play:{
-                binder.pause();
-                if (isPlay){
-                    play.setImageResource(R.mipmap.pause);
-                    isPlay=false;
-                }else {
+                if (state==STOP_STATE){
+                    if (!TextUtils.isEmpty(fileUrl)){
+                        play(fileUrl);
+                        play.setImageResource(R.mipmap.pause);
+                        state=PLAY_STATE;
+                        cdView.startRotate();
+                    }
+                }else if (state==PLAY_STATE){
+                    pause();
+                    cdView.pauseRotate();
                     play.setImageResource(R.mipmap.play);
-//                    cdView.startRotate();
-                    isPlay=true;
+                    state=PAUSE_STATE;
+                }else if (state==PAUSE_STATE){
+                    pause();
+                    cdView.resumeRotate();
+                    play.setImageResource(R.mipmap.pause);
+                    state=PLAY_STATE;
                 }
             }
             break;
@@ -170,6 +237,27 @@ public class MainActivity extends BaseActivity {
             }
             break;
         }
+    }
+
+    private void play(String url){
+        fileUrl=url;
+        author.setText(url);
+        int lastIndex=url.lastIndexOf(".");
+        String name=url.substring(url.lastIndexOf("/")+1,lastIndex);
+        songName.setText(name);
+        Intent intent=new Intent(MusicIntentService.PLAY_ACTION);
+        intent.putExtra("url",url);
+        sendBroadcast(intent);
+    }
+
+    private void pause(){
+        Intent intent=new Intent(MusicIntentService.PAUSE_ACTION);
+        sendBroadcast(intent);
+    }
+
+    private void stop(){
+        Intent intent=new Intent(MusicIntentService.STOP_ACTION);
+        sendBroadcast(intent);
     }
 
     @Override
@@ -183,18 +271,74 @@ public class MainActivity extends BaseActivity {
         switch (requestCode){
             case 101:{
                 if (data!=null){
-                    fileUrl=data.getStringExtra("file");
-                    if (!TextUtils.isEmpty(fileUrl)){
-                        binder.play(fileUrl);
+                    String url=data.getStringExtra("file");
+                    if (!TextUtils.isEmpty(url)){
+                        play(url);
+                        state=PLAY_STATE;
                         play.setImageResource(R.mipmap.pause);
                         cdView.startRotate();
-                        author.setText(fileUrl);
-                        songName.setText(fileUrl.substring(fileUrl.lastIndexOf("/")+1));
+                        int lastIndex=url.lastIndexOf(".");
+                        String name=url.substring(url.lastIndexOf("/")+1,lastIndex);
+                        Music music=new Music();
+                        music.setName(name);
+                        music.setUrl(url);
+                        musicAdapter.addData(music);
                     }
                 }
             }
             break;
         }
+    }
+
+    public class ActivityReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            switch (action){
+                case COMPLETE_ACTION:{
+                    state=STOP_STATE;
+                    cdView.stopRotate();
+                    play.setImageResource(R.mipmap.play);
+                }
+                break;
+                case TOTALPROGRESS_ACTION:{
+                    totalProgress=intent.getIntExtra("totalProgress",0);
+                    Log.d("xxxxx","totalProgress="+totalProgress);
+                    totalTime.setText(calculateProgress(totalProgress));
+                }
+                break;
+                case CURRENTPROGRESS_ACTION:{
+                    currentProgress=intent.getIntExtra("currentProgress",0)+1;
+                    Log.d("xxxxx","currentProgress="+currentProgress);
+                    if (totalProgress>0){
+                        float percent=currentProgress/totalProgress*100;
+                        Log.d("xxxxx","percent="+percent+"  totalProgress="+totalProgress);
+                        circleProgress.setCurrentProgress(percent);
+                    }
+                    currentTime.setText(calculateProgress((int) currentProgress));
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * 计算时间进度
+     * @param progress
+     * @return
+     */
+    private String calculateProgress(float progress){
+        float dprogress=progress/1000;
+        int minute= (int) (dprogress/60);
+        int second= (int) (dprogress%60);
+        String progressStr=Integer.toString(minute);
+        if (second<10){
+            progressStr=progressStr+":0"+second;
+        }else {
+            progressStr=progressStr+":"+second;
+        }
+        Log.d("xxxxx","progressStr="+progressStr);
+        return progressStr;
     }
 
 }

@@ -27,8 +27,13 @@
 
         </activity>
 
-        <service
-            android:name=".Service.MusicService"
+        <!--<service-->
+            <!--android:name=".Service.MusicService"-->
+            <!--android:icon="@mipmap/ic_launcher"-->
+            <!--android:exported="false">-->
+        <!--</service>-->
+
+        <service android:name=".Service.MusicIntentService"
             android:icon="@mipmap/ic_launcher"
             android:exported="false">
         </service>

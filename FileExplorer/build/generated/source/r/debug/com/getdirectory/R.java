@@ -1793,11 +1793,14 @@ containing a value of this type.
         public static int abc_textfield_search_default_mtrl_alpha=0x7f020050;
         public static int abc_textfield_search_material=0x7f020051;
         public static int abc_vector_test=0x7f020052;
-        public static int ic_directory=0x7f020053;
-        public static int ic_external_storage=0x7f020054;
-        public static int ic_launcher=0x7f020055;
-        public static int ic_storage=0x7f020056;
-        public static int notification_template_icon_bg=0x7f020057;
+        public static int folder=0x7f020053;
+        public static int ic_directory=0x7f020054;
+        public static int ic_external_storage=0x7f020055;
+        public static int ic_launcher=0x7f020056;
+        public static int ic_storage=0x7f020057;
+        public static int notification_template_icon_bg=0x7f02005a;
+        public static int sdcard=0x7f020058;
+        public static int storage=0x7f020059;
     }
     public static final class id {
         public static int action0=0x7f0a0058;

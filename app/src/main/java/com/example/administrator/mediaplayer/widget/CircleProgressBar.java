@@ -23,7 +23,7 @@ public class CircleProgressBar extends View {
     private int circleColor;
     private float progressStrokeWidth,insidePadding;
     private int mWidth,center;
-    private int currentProgress;
+    private float currentProgress;
     private float mRadius;
     private Paint backPaint,progressPaint;
     private RectF oval;
@@ -73,7 +73,7 @@ public class CircleProgressBar extends View {
         Log.d("xxxxx","radius="+mRadius+"   width="+mWidth);
     }
 
-    public void setCurrentProgress(int currentProgress) {
+    public void setCurrentProgress(float currentProgress) {
         if (currentProgress>TOTAL_PROGRESS){
             throw new IllegalArgumentException("进度不能大于100");
         }else {

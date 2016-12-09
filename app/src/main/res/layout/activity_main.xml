@@ -39,10 +39,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <com.example.administrator.mediaplayer.widget.CircleProgressBar
+                        android:id="@+id/circleProgress"
                         app:circleStrokeWidth="4dp"
                         app:progressColor="@color/progressColor"
                         android:layout_centerInParent="true"
-                        app:currentProgress="0"
                         android:layout_width="250dp"
                         android:layout_height="250dp" />
 

@@ -21,11 +21,47 @@ public class Music implements Parcelable {
         this.coverImg=coverImg;
     }
 
+    public Music(){
+
+    }
+
     private Music(Parcel in) {
         this.name=in.readString();
         this.author=in.readString();
         this.url=in.readString();
         this.coverImg=in.readString();
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getCoverImg() {
+        return coverImg;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public static final Creator<Music> CREATOR = new Creator<Music>() {

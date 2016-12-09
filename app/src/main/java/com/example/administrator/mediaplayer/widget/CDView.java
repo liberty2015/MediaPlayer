@@ -10,9 +10,9 @@ import android.graphics.BitmapShader;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.support.v7.graphics.Palette;
@@ -50,6 +50,8 @@ public class CDView extends View {
     private int drawableRes;
     private Bitmap mBitmap;
     private boolean hasInit=true;
+
+    private long animTime;
 //    private RotateThread thread;
 
     private int mWidth,mRadius,largeStroke,smallStroke,insideRadius,center,progressStrokeWidth;
@@ -102,9 +104,9 @@ public class CDView extends View {
         rotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                rotate= (float) valueAnimator.getAnimatedValue();
-                invalidate();
-//                CDView.this.setRotation((Float) valueAnimator.getAnimatedValue());
+//                rotate= (float) valueAnimator.getAnimatedValue();
+//                invalidate();
+                CDView.this.setRotation((Float) valueAnimator.getAnimatedValue());
             }
         });
         rotateAnimator.setRepeatCount(ValueAnimator.INFINITE);
@@ -124,40 +126,25 @@ public class CDView extends View {
 //        setUpShader();
     }
 
-
-
-    /**
-     * 将裁剪好的bitmap作为bitmap着色器设置到paint上
-     */
-    private void setUpShader(){
-        if (mBitmap!=null){
-            Bitmap bitmap= drawableToBitmap(mBitmap);
-            if (paletteAsyncListener!=null){
-                Palette.Builder builder=Palette.from(bitmap);
-                builder.generate(paletteAsyncListener);
-            }
-            bitmapShader=new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            bitmapPaint.setShader(bitmapShader);
-        }else {
-//            LinearGradient linearGradient=
-//                    new LinearGradient(0,0,mWidth,mWidth,
-//                            new int[]{Color.WHITE,Color.BLACK,Color.WHITE},
-//                            new float[]{0,0.6f,1.0f},
-//                            Shader.TileMode.REPEAT);
-            Bitmap bitmap= drawableToBitmap(getResources().getDrawable(R.mipmap.disk));
-            bitmapShader=new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            bitmapPaint.setShader(bitmapShader);
-        }
-
-    }
-
     public void startRotate(){
-        this.startAnimation(animation);
+//        this.startAnimation(animation);
+        rotateAnimator.start();
     }
 
     public void pauseRotate(){
-        ObjectAnimator animator;
+        animTime=rotateAnimator.getCurrentPlayTime();
+        rotateAnimator.cancel();
     }
+
+    public void stopRotate(){
+        rotateAnimator.cancel();
+    }
+
+    public void resumeRotate(){
+        rotateAnimator.start();
+        rotateAnimator.setCurrentPlayTime(animTime);
+    }
+
 
     private Palette.PaletteAsyncListener paletteAsyncListener;
 
@@ -166,7 +153,59 @@ public class CDView extends View {
     }
 
     /**
-     * 图片裁剪，生成新的bitmap
+     * 图片裁剪，
+     * 将裁剪好的bitmap作为bitmap着色器设置到paint上
+     */
+    private void setUpShader(){
+        if (mBitmap!=null){
+            Bitmap bitmap= mBitmap;
+            if (paletteAsyncListener!=null){
+                Palette.Builder builder=Palette.from(bitmap);
+                builder.generate(paletteAsyncListener);
+            }
+            bitmapShader=new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+            Matrix matrix=new Matrix();
+            /**
+             * 通过图片和组件大小计算缩放
+             */
+            float scale=1.0f;
+            int size=Math.min(bitmap.getWidth(),bitmap.getHeight());
+            float dx=0f,dy=0f;
+            scale=mRadius*2.0f/size;
+            int drawableWidth=bitmap.getWidth();
+            int drawableHeight=bitmap.getHeight();
+            int viewWidth=getWidth();
+            int viewHeight=getHeight();
+            /**
+             * 由于缩放是基于组件原点缩放的，所以会导致在bitmapShader上出现拉伸，因此需要计算缩放之后的需要移动的像素值
+             */
+            dx=(viewWidth-drawableWidth*scale)*0.5f;
+            dy=(viewHeight-drawableHeight*scale)*0.5f;
+            Log.d("xxxxx","dx="+dx+"  dy="+dy);
+            Log.d("xxxxx","mWidth="+mWidth+" radius="+mRadius+"  drawableWidth="+drawableWidth+"  drawableHeight="
+                    +drawableHeight+"  viewWidth="+viewWidth+"  viewHeight="+viewHeight);
+            Log.d("xxxxx","scale="+scale);
+            /**
+             * 为matrix设置scale
+             */
+            matrix.setScale(scale,scale);
+            /**
+             * matrix后乘侧移值
+             */
+            matrix.postTranslate((dx+0.5f),(dy+0.5f));
+            bitmapShader.setLocalMatrix(matrix);
+            bitmapPaint.setShader(bitmapShader);
+        }else {
+            Bitmap bitmap= drawableToBitmap(getResources().getDrawable(R.mipmap.disk));
+            bitmapShader=new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            bitmapPaint.setShader(bitmapShader);
+        }
+
+    }
+
+    /**
+     * 将drawable转化为bitmap
      * @param drawable
      * @return
      */
@@ -177,24 +216,6 @@ public class CDView extends View {
         Canvas canvas=new Canvas(bitmap);
         drawable.setBounds(0,0,mWidth,mWidth);
         drawable.draw(canvas);
-//        Math.toDegrees()
-        return bitmap;
-    }
-
-
-    private Bitmap drawableToBitmap(Bitmap mBitmap){
-        int w=mBitmap.getWidth();
-        int h=mBitmap.getHeight();
-        Bitmap bitmap= Bitmap.createBitmap(w,h, Bitmap.Config.ARGB_8888);
-        Canvas canvas=new Canvas(bitmap);
-//        Matrix matrix=new Matrix();
-//        int scale=mWidth/w;
-//        matrix.setScale(scale,scale);
-//        canvas.drawBitmap(mBitmap,matrix,null);
-        BitmapDrawable drawable=new BitmapDrawable(mBitmap);
-        drawable.setBounds(0,0,mWidth,mWidth);
-        drawable.draw(canvas);
-//        Math.toDegrees()
         return bitmap;
     }
 
@@ -233,6 +254,8 @@ public class CDView extends View {
 
     public void setmBitmap(Bitmap mBitmap) {
         this.mBitmap = mBitmap;
+        hasInit=true;
+        invalidate();
     }
 
     @Override
