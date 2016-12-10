@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 public class Music implements Parcelable {
 
+    private int _id;
     private String name;
     private String author;
     private String url;
@@ -26,6 +27,7 @@ public class Music implements Parcelable {
     }
 
     private Music(Parcel in) {
+        this._id=in.readInt();
         this.name=in.readString();
         this.author=in.readString();
         this.url=in.readString();
@@ -46,6 +48,14 @@ public class Music implements Parcelable {
 
     public String getUrl() {
         return url;
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
     public void setAuthor(String author) {
@@ -108,6 +118,7 @@ public class Music implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(_id);
         dest.writeString(name);
         dest.writeString(author);
         dest.writeString(url);

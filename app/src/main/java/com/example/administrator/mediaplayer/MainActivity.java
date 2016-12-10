@@ -26,9 +26,12 @@ import com.example.administrator.mediaplayer.adapter.DividerItemDecoration;
 import com.example.administrator.mediaplayer.adapter.MusicAdapter;
 import com.example.administrator.mediaplayer.adapter.OnRecyclerItemClickListener;
 import com.example.administrator.mediaplayer.bean.Music;
+import com.example.administrator.mediaplayer.model.MusicDB;
 import com.example.administrator.mediaplayer.widget.CDView;
 import com.example.administrator.mediaplayer.widget.CircleProgressBar;
 import com.getdirectory.FileDirActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,15 +76,6 @@ public class MainActivity extends BaseActivity {
     private Handler handler=new Handler();
 
     private MusicAdapter musicAdapter;
-//    private MusicService.MusicBinder binder;
-
-//    public static final int PLAY_STATE=100;
-//    public static final int PAUSE_STATE=101;
-//    public static final int STOP_STATE=102;
-//
-//    @IntDef({PLAY_STATE,PAUSE_STATE,STOP_STATE})
-//    @Retention(RetentionPolicy.SOURCE)
-//    public @interface MUSICSTATE{}
 
     private @commonEnum.MUSICSTATE int state=STOP_STATE;
 
@@ -119,19 +113,29 @@ public class MainActivity extends BaseActivity {
         filter.addAction(CURRENTPROGRESS_ACTION);
         BroadcastReceiver receiver=new ActivityReceiver();
         registerReceiver(receiver,filter);
-        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.inflateMenu(R.menu.toolbar_menu);
-        toolbar.setTitle(R.string.app_name);
+//        toolbar.setTitle(R.string.app_name);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset<=-activity_main.getHeight()/2){
+//                if (verticalOffset<=-activity_main.getHeight()/2){
+//                    toolbarLayout.setTitle(songName.getText());
+//                }else {
+//                    toolbarLayout.setTitle("");
+//                }
+                Log.d("xxxxx","toolbar.getY()="+toolbar.getY()+"  toolbarLayout.getHeight()="+toolbarLayout.getHeight()+"  verticalOffset="+verticalOffset
+                        +"  appBarLayout.getY()="+appBarLayout.getY());
+//                if (Math.abs(verticalOffset)<toolbar.getY()/2){
+//                    toolbarLayout.setTitle("");
+//                }else {
+//                    toolbarLayout.setTitle(songName.getText());
+//                }
+//                if (Math.abs(verticalOffset)==toolbar.getY()){
                     toolbarLayout.setTitle(songName.getText());
-                }else {
-                    toolbarLayout.setTitle("");
-                }
+//                }
             }
         });
         musicAdapter=new MusicAdapter(this);
@@ -142,9 +146,16 @@ public class MainActivity extends BaseActivity {
             public void onItemClick(int position, RecyclerView.ViewHolder holder) {
                 super.onItemClick(position, holder);
                 Music music=musicAdapter.getItem(position);
-                if (!fileUrl.equals(music.getUrl())){
+                if (fileUrl!=null){
+                    if (!fileUrl.equals(music.getUrl())){
+                        play(music.getUrl());
+                        state=PLAY_STATE;
+                    }
+                }else {
                     play(music.getUrl());
+                    state=PLAY_STATE;
                 }
+                toolbar.setTitle(songName.getText());
             }
         });
         musicList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
@@ -172,7 +183,7 @@ public class MainActivity extends BaseActivity {
 //                return false;
 //            }
 //        });
-        cdView.setDrawableRes(R.mipmap.april);
+//        cdView.setDrawableRes(R.mipmap.pic);
 //        cdView.startRotate();
 //        bindService(new Intent(this,MusicService.class),connection,BIND_AUTO_CREATE);
     }
@@ -215,19 +226,24 @@ public class MainActivity extends BaseActivity {
                 if (state==STOP_STATE){
                     if (!TextUtils.isEmpty(fileUrl)){
                         play(fileUrl);
-                        play.setImageResource(R.mipmap.pause);
                         state=PLAY_STATE;
-                        cdView.startRotate();
+                    }else {
+                        if (musicAdapter.getItemCount()>0){
+                            Music music=musicAdapter.getItem(0);
+                            fileUrl=music.getUrl();
+                            play(fileUrl);
+                            state=PLAY_STATE;
+                        }
                     }
                 }else if (state==PLAY_STATE){
-                    pause();
                     cdView.pauseRotate();
                     play.setImageResource(R.mipmap.play);
+                    pause();
                     state=PAUSE_STATE;
                 }else if (state==PAUSE_STATE){
-                    pause();
                     cdView.resumeRotate();
                     play.setImageResource(R.mipmap.pause);
+                    pause();
                     state=PLAY_STATE;
                 }
             }
@@ -236,10 +252,20 @@ public class MainActivity extends BaseActivity {
                 startActivityForResult(new Intent(MainActivity.this,FileDirActivity.class),101);
             }
             break;
+            case R.id.prev:{
+
+            }
+            break;
+            case R.id.next:{
+
+            }
+            break;
         }
     }
 
     private void play(String url){
+        play.setImageResource(R.mipmap.pause);
+        cdView.startRotate();
         fileUrl=url;
         author.setText(url);
         int lastIndex=url.lastIndexOf(".");
@@ -262,7 +288,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        List<Music> musics=MusicDB.getInstance(this).selectBean();
+        musicAdapter.fillDataList(musics);
     }
 
     @Override
@@ -283,6 +310,9 @@ public class MainActivity extends BaseActivity {
                         music.setName(name);
                         music.setUrl(url);
                         musicAdapter.addData(music);
+                        if (!MusicDB.getInstance(this).hasBean(music)){
+                            MusicDB.getInstance(this).insertBean(music);
+                        }
                     }
                 }
             }
